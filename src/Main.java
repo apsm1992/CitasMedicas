@@ -50,12 +50,12 @@ public class Main {
     }
 
     public static void mostrarMenu() {
-        System.out.println("\n--- MENÚ PRINCIPAL ---");
+        System.out.println("\n---- MENÚ PRINCIPAL ----");
         System.out.println("1. Alta de doctor");
         System.out.println("2. Alta de paciente");
         System.out.println("3. Crear cita");
         System.out.println("4. Listar citas");
         System.out.println("5. Salir");
-        System.out.print("Seleccione una opción: ");
+        System.out.print("Seleccione una opcion: ");
     }
 }
