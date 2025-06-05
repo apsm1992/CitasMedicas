@@ -3,6 +3,9 @@
 *.swp
 .idea/
 
+## Evidencia final
+db/*
+!db/.gitkeep
 
 ### IntelliJ IDEA ###
 out/
