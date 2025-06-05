@@ -8,8 +8,8 @@ public class SistemaCitas {
     Scanner scanner = new Scanner(System.in);
 
     public void inicializarArchivos() {
-        File db = new File("db");
-        if (!db.exists()) db.mkdirs();
+        File dbDir = new File("db");
+        if (!dbDir.exists()) dbDir.mkdirs();
 
         crearArchivoSiNoExiste("db/doctores.csv");
         crearArchivoSiNoExiste("db/pacientes.csv");
@@ -27,6 +27,36 @@ public class SistemaCitas {
         }
     }
 
+    public void cargarDatosDesdeArchivos() {
+        try (BufferedReader br = new BufferedReader(new FileReader("db/doctores.csv"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 2) doctores.add(new Doctor(datos[0], datos[1]));
+            }
+        } catch (IOException e) {}
+
+        try (BufferedReader br = new BufferedReader(new FileReader("db/pacientes.csv"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 2) pacientes.add(new Paciente(datos[0], datos[1]));
+            }
+        } catch (IOException e) {}
+
+        try (BufferedReader br = new BufferedReader(new FileReader("db/citas.csv"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 4) {
+                    Doctor d = new Doctor(datos[2], "");
+                    Paciente p = new Paciente(datos[3], "");
+                    citas.add(new Cita(datos[0], datos[1], d, p));
+                }
+            }
+        } catch (IOException e) {}
+    }
+
     public void altaDoctor() {
         System.out.print("Nombre del doctor: ");
         String nombre = scanner.nextLine();
@@ -34,6 +64,11 @@ public class SistemaCitas {
         String especialidad = scanner.nextLine();
         Doctor d = new Doctor(nombre, especialidad);
         doctores.add(d);
+        try (FileWriter fw = new FileWriter("db/doctores.csv", true)) {
+            fw.write(nombre + "," + especialidad + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar doctor.");
+        }
         System.out.println("Doctor registrado.");
     }
 
@@ -44,6 +79,11 @@ public class SistemaCitas {
         String telefono = scanner.nextLine();
         Paciente p = new Paciente(nombre, telefono);
         pacientes.add(p);
+        try (FileWriter fw = new FileWriter("db/pacientes.csv", true)) {
+            fw.write(nombre + "," + telefono + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar paciente.");
+        }
         System.out.println("Paciente registrado.");
     }
 
@@ -72,6 +112,11 @@ public class SistemaCitas {
 
         Cita c = new Cita(fecha, hora, doctores.get(idxDoctor), pacientes.get(idxPaciente));
         citas.add(c);
+        try (FileWriter fw = new FileWriter("db/citas.csv", true)) {
+            fw.write(fecha + "," + hora + "," + doctores.get(idxDoctor).nombre + "," + pacientes.get(idxPaciente).nombre + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar cita.");
+        }
         System.out.println("Cita registrada.");
     }
 
