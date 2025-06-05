@@ -10,28 +10,32 @@ public class Main {
         sistema.cargarDatosDesdeArchivos();
 
         if (loginAdministrador()) {
-            int opcion;
+            int opcion = 0;
             do {
                 mostrarMenu();
-                opcion = Integer.parseInt(scanner.nextLine());
-                switch (opcion) {
-                    case 1:
-                        sistema.altaDoctor();
-                        break;
-                    case 2:
-                        sistema.altaPaciente();
-                        break;
-                    case 3:
-                        sistema.crearCita();
-                        break;
-                    case 4:
-                        sistema.listarCitas();
-                        break;
-                    case 5:
-                        System.out.println("Saliendo del sistema...");
-                        break;
-                    default:
-                        System.out.println("Opción no válida.");
+                try {
+                    opcion = Integer.parseInt(scanner.nextLine());
+                    switch (opcion) {
+                        case 1:
+                            sistema.altaDoctor();
+                            break;
+                        case 2:
+                            sistema.altaPaciente();
+                            break;
+                        case 3:
+                            sistema.crearCita();
+                            break;
+                        case 4:
+                            sistema.listarCitas();
+                            break;
+                        case 5:
+                            System.out.println("Saliendo del sistema...");
+                            break;
+                        default:
+                            System.out.println("Opción no válida. Intente de nuevo.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Por favor, ingrese un número del menú.");
                 }
             } while (opcion != 5);
         }
