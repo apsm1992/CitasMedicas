@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         sistema.inicializarArchivos();
+        sistema.cargarDatosDesdeArchivos();
 
         if (loginAdministrador()) {
             int opcion;
@@ -53,4 +54,4 @@ public class Main {
         System.out.println("5. Salir");
         System.out.print("Seleccione una opción: ");
     }
-} 
+}
